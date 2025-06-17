@@ -1,4 +1,4 @@
-import Usage from '@/components/common/usage'
+import Usage from '@/components/common/Usage'
 import ThemeExamples from '@/components/themes/theme-examples'
 import ThemeCustomizer from '@/components/themes/theme-customizer'
 
