@@ -58,14 +58,14 @@ export default function RecentActivity() {
       const response = await axios.get('https://api.unsplash.com/photos/random', {
         params: {
           client_id: process.env.NEXT_PUBLIC_ACCESS_KEY,
-          count: 5,
+          count: Math.min(5, data.length),
         },
       })
 
       const updatedData = data.map((item, index) => ({
         ...item,
-        img: response.data[index].urls.small,
-        time: generateRandomTime(), // 클라이언트 사이드에서만 시간 생성
+        img: response.data[index]?.urls?.small || item.img,
+        time: generateRandomTime(),
       }))
 
       setData(updatedData)
@@ -75,7 +75,11 @@ export default function RecentActivity() {
   }
 
   useEffect(() => {
-    fetchData()
+    const fetchPhotoTimer = setTimeout(() => fetchData(), 3000)
+
+    return () => {
+      clearTimeout(fetchPhotoTimer)
+    }
   }, [])
 
   return (
